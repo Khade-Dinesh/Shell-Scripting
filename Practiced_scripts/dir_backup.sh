@@ -25,7 +25,7 @@ source_dir="$1"
 # Function to  create a timestamp backup and zip it 
 function create_backup { 
 	local timestamp=$(date "+%Y-%m-%d_%H-%M-%S")
-	local backup_dir="/home/dinesh-khade/shell-scripting/Shell-Scripting/Practiced_scripts/backups_${source_dir}/backup_${timestamp}"
+	local backup_dir="${source_dir}/backup_${timestamp}"
 # Create backup directory and zip its contents
 zip -r "${backup_dir}.zip" "$source_dir" >/dev/null
 
