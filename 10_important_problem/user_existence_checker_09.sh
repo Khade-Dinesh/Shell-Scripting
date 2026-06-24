@@ -11,22 +11,22 @@ fi
 
 user=$1
 
-# Check if user exists on system 
+user_info=$(getent passwd "$user")
 
-user_list=$(getent passwd | grep  $user | awk -F 'print $1')
-user_UID=$(getent passwd | grep  $user |  awk -F: '{print $3}')
-user_HOME=$(getent passwd | grep $user | awk -F: '{print $6}')
-user_SHELL=$(getent passwd | grep $user | awk -F: '{print $7}')
-
-if [[ $user -eq $user_list ]];
-then
-	echo "User $user Exists"
-	echo "UID:$user_UID"
-	echo "HOME:$user_HOME"
-	echo "SHELL:$user_SHELL"
-else 
-	echo "User not exists"
+if [[ $? -ne 0 ]]; then
+	echo "User does not exit"
+	exit 1
 fi
 
+user_list=$(echo "$user_info" | awk -F: '{print $1}')
+user_UID=$(echo "$user_info" | awk -F: '{print $3}')
+user_GID=$(echo "$user_info" | awk -F: '{print $4}')
+user_HOME=$(echo "$user_info" | awk -F: '{print $6}')
+user_SHELL=$(echo "$user_info" |  awk -F: '{print $7}')
 
 
+	echo "User $user Exists"
+	echo "UID:$user_UID"
+	echo "GID:$user_GID"
+	echo "HOME:$user_HOME"
+	echo "SHELL:$user_SHELL"
